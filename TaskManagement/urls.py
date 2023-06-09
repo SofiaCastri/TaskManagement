@@ -22,7 +22,7 @@ from task import views
 #in questo file sono inclusi tutti gli URL accessibili dal nostro sito web
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('taskHome/', views.taskHome, name='Home'),
+    path('', views.taskHome, name='Home'),
     path('taskHome/Iscriviti/', views.Iscrizione),
     path('taskHome/Iscriviti/Accesso/', views.register, name='register'),
     path('taskHome/Iscriviti/RegistrazioneCompletata/', views.RegistrazioneCompletata, name='RegistrazioneCompletata'),
