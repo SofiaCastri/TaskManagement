@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TaskHome</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</head>
+<body style="padding-bottom: 100px;">
+
+<nav class="navbar navbar-light bg-light " style="background-color: darkcyan">
+    <div class="ConteinerNav" style="margin-top: 5px;">
+        <div class="ConteinerTitolo" style="text-align: right;">
+            <a class="navbar-brand" style="color:darkgrey"><b>Task Management</b></a>
+        </div>
+    </div>
+</nav>
+
+    <div class="ConteinerLog" style="margin-top: 5px;">
+        <div style="text-align: right;">
+            <div class="row">
+                <div class="column" style="flex:20%; text-align: right;"><b style="margin-left:20px; ">{{ user }}</b>
+                </div>
+                <div class="column" style="flex:20%;">
+                    <a href="/taskHome/" type="button" class="btn btn-primary" style="border-radius:20px; margin-right:40px; background-color: red" >Logout</a>
+                </div>
+            </div>
+
+
+
+    </div>
+    </div>
+
+
+
+
+  <div class="container" style="margin-top:30px;">
+  <div class="containerUser" style="padding:10px; background-color: lavenderblush; border-radius: 20px;">
+            <h3><b>Benvenuto nella tua Home! </b> </h3>
+      <div class="row">
+                <div class="column" style="flex:70%; text-align: right; margin-right:20px;">
+                    <a href="CreaTask/" type="submit" class="btn btn-primary" >Aggiungi Task</a>
+                </div>
+                 <div class="column" style="flex:70%; text-align: right; margin-right:20px;margin-top:20px;">
+                    <a href="CreaTaskTeam/" type="submit" class="btn btn-primary" >Aggiungi Task di Gruppo</a>
+                </div>
+            </div>
+
+  </div>
+
+  <style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+</style>
+
+<div class="ContenitoreTask" style="padding:10px; background-color: lavenderblush; border-radius: 20px;margin-top:20px;">
+    <h3 style="text-align: center">Ecco i tuoi task </h3>
+    <p style="text-align: center">In questa sezione potrai vedere i tuoi task, pubblici e privati, potrai aggiungerli, modificarli ed eliminarli a tuo piacimento </p>
+
+    {% for task in tasks_utente %}
+      <div class="card" style="border-left: 1px solid gray;border-right: 1px solid gray; margin-top:30px;">
+                <h5 class="card-header" style="border-bottom: 1px solid gray;background-color: plum;padding: 8px;">
+                <div class="row">
+                    <div class="column"><b style="margin-left:20px; ">{{ task.nome }}</b>
+                    </div>
+                        <div class="column" style="text-align: right; margin-right:20px;">
+                                <div class="Bottoni"style="text-align: right; margin-right:20px;">
+                                    <a href="{% url 'modifica_task' task.id  %}" class="btn btn-primary" style="margin-left:20px; border-bottom:1px solid gray; background-color: lightgreen">Modifica Task</a>
+                                    <a href="{% url 'delete_task' task.id %}" class="btn btn-primary" style="margin-left:20px;border-bottom:1px solid gray;background-color: red">Elimina Task</a>
+                                </div>
+                         </div>
+                    </div>
+                </h5>
+
+          <div class="card-body"style="border-bottom: 1px solid gray;">
+
+
+          <!-- ERROREEEEEEE -->
+                      {% if task.categoria.nome == "Lavoro" %}
+                <h5 class="card-title" style="margin-left:20px;padding: 5px;background-color:lavender; margin-right:20px;">
+                    <i>{{ task.categoria }}</i>
+                </h5>
+            {% else %}
+                <h5 class="card-title" style="margin-left:20px;padding: 5px;background-color:lightslategray; margin-right:20px;">
+                    <i>{{ task.categoria }}</i>
+                </h5>
+            {% endif %}
+
+
+
+
+              <div class="row">
+                    <div class="column">
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: darkturquoise; border:none;margin-left:30px;">{{ task.data_inizio }}</a>
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: crimson; border:none;margin-left:30px;">{{ task.data_fine }}</a>
+
+                        {% if task.data_fine < now %}
+                         <p style="color:red; margin-left:40px;"><b>Task Scaduto!!!!!!</b></p>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="column" style="text-align: right; margin-right:40px;">
+                          <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ task.id }}"> Descrizione </button>
+            <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-{{ task.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ task.nome }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                    <div class="modal-body">{{ task.descrizione }}</div>
+                                    <div class="modal-body"><b>Stato</b><i>  {{ task.stato }}</i></div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                         </div>
+                    </div>
+
+                </div>
+        </div>
+    {% endfor %}
+</div>
+
+  <div class="ContenitoreTaskGruppo" style="padding:10px; background-color: lightgreen; border-radius: 20px;margin-top:20px;">
+    <h3 style="text-align: center">Task di gruppo </h3>
+    <p style="text-align: center">in questa sezione potrai vedere i task di gruppo a cui partecipi </p>
+
+    {% for gruppo in gruppos %}
+         {% if request.user in gruppo.utenti.all %}
+      <div class="card" style="border-left: 1px solid gray;border-right: 1px solid gray; margin-top:30px;">
+                <h5 class="card-header" style="border-bottom: 1px solid gray;background-color: plum;padding: 8px;">
+                <div class="row">
+                    <div class="column"><b style="margin-left:20px; ">{{ gruppo.nome }}</b>
+                    </div>
+                        <div class="column" style="text-align: right; margin-right:20px;">
+                                <div class="Bottoni"style="text-align: right; margin-right:20px;">
+                                    <a href="{% url 'modifica_gruppo' gruppo.id %}" class="btn btn-primary" style="margin-left:20px; border-bottom:1px solid gray; background-color: lightgreen">Modifica Task di Gruppo</a>
+                                    <a href="{% url 'delete_gruppo' gruppo.id %}" class="btn btn-primary" style="margin-left:20px;border-bottom:1px solid gray;background-color: red">Elimina Task di Gruppo</a>
+                                </div>
+                         </div>
+                    </div>
+                </h5>
+
+          <div class="card-body"style="border-bottom: 1px solid gray;">
+
+              <div class="row">
+                    <div class="column">
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: darkturquoise; border:none;margin-left:30px;">{{ gruppo.data_inizio }}</a>
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: crimson; border:none;margin-left:30px;">{{ gruppo.data_fine }}</a>
+
+                        {% if gruppo.data_fine < now %}
+                         <p style="color:red; margin-left:40px;"><b>Task Scaduto!!!!!!</b></p>
+                        {% endif %}
+
+                    </div>
+
+              <div class="column">
+              <h5>Elenco partecipanti:</h5>
+                        <ul>
+                          {% for utente in gruppo.utenti.all %}
+                            <li>{{ utente.username }}</li>
+                          {% endfor %}
+                        </ul>
+
+                    </div>
+
+
+
+
+                    <div class="column" style="text-align: right; margin-right:40px;">
+                          <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ gruppo.id }}"> Descrizione </button>
+            <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-{{ gruppo.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ gruppo.nome }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                    <div class="modal-body">{{ gruppo.descrizione }}</div>
+                                    <div class="modal-body"><b>Stato</b><i>  {{ gruppo.stato }}</i></div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                         </div>
+                    </div>
+
+                </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="ContenitoreTaskPubblici" style="padding:10px; background-color: lightblue; border-radius: 20px;margin-top:20px;">
+    <h3 style="text-align: center">Task pubblici </h3>
+    <p style="text-align: center">In questa sezione puoi vedere i task pubblici creati dagli altri utenti registrati nel nostro sito.
+        Questa sezione è volta a poter interagire anche con altri utenti, essere informati sulle loro attività pubbliche </p>
+    {% for task in tasks_pubblici %}
+      <div class="card" style="border-left: 1px solid gray;border-right: 1px solid gray; margin-top:30px;">
+                <h5 class="card-header" style="border-bottom: 1px solid gray;background-color: plum;padding: 8px;">
+                <div class="row">
+                    <div class="column"><b style="margin-left:20px; ">{{ task.nome }}</b>
+                    </div>
+                        <div class="column" style="text-align: right; margin-right:20px;">
+                                <div class="Bottoni"style="text-align: right; margin-right:20px;">
+                                     <b style="margin-left:20px; ">{{ task.utente }}</b>
+                                </div>
+
+
+                         </div>
+                    </div>
+                </h5>
+
+          <div class="card-body"style="border-bottom: 1px solid gray;">
+
+
+          <!-- ERROREEEEEEE -->
+                      {% if task.categoria.nome == "Lavoro" %}
+                <h5 class="card-title" style="margin-left:20px;padding: 5px;background-color:lavender; margin-right:20px;">
+                    <i>{{ task.categoria }}</i>
+                </h5>
+            {% else %}
+                <h5 class="card-title" style="margin-left:20px;padding: 5px;background-color:lightslategray; margin-right:20px;">
+                    <i>{{ task.categoria }}</i>
+                </h5>
+            {% endif %}
+
+
+
+
+              <div class="row">
+                    <div class="column">
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: darkturquoise; border:none;margin-left:30px;">{{ task.data_inizio }}</a>
+                        <a href="#" class="btn btn-primary" style="border-bottom:1px solid gray;border-radius: 20px; background-color: crimson; border:none;margin-left:30px;">{{ task.data_fine }}</a>
+
+                        {% if task.data_fine < now %}
+                         <p style="color:red; margin-left:40px;"><b>Task Scaduto!!!!!!</b></p>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="column" style="text-align: right; margin-right:40px;">
+                          <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ task.id }}"> Descrizione </button>
+
+            <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-{{ task.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ task.nome }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                    <div class="modal-body">{{ task.descrizione }}</div>
+                                    <div class="modal-body"><b>Stato</b><i>  {{ task.stato }}</i></div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                         </div>
+                    </div>
+
+                </div>
+        </div>
+    {% endfor %}
+  </div>
+
+
+
+
+
+
+  </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
