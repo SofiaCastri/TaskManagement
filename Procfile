@@ -1,1 +1,1 @@
-web: python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn Elaborato.wsgi --log-file -
+web: python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn TaskManagement.wsgi --log-file -
