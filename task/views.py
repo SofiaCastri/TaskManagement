@@ -173,6 +173,7 @@ def registerLogin(request):
 
 def logout_view(request):
     logout(request)
+    return redirect('Home')
     # Redirect to a success page.
 
 

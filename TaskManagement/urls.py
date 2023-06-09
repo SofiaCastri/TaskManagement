@@ -43,7 +43,7 @@ urlpatterns = [
 
     path('taskHome/Login/Accesso/pagina/', views.registerLogin, name="registerLogin"),
 
-    #path('taskHome/', views.logout_view, name="logout_view"),
+    path('taskHome/', views.logout_view, name="logout_view"),
 
 ]
 
